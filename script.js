@@ -2,43 +2,43 @@ document.getElementById('prizeForm').addEventListener('submit', function (e) {
   e.preventDefault();
   const name = this.name.value.trim();
   const phoneRaw = this.phone.value.trim();
-
-  // Удаляем лишние символы из номера
-  const cleanedPhone = phoneRaw.replace(/[\s()-]/g, '');
-
   const messageEl = document.getElementById('message');
 
-  // Проверка формата
-  if (!/^\+7\d{10}$/.test(cleanedPhone)) {
+  // Удаляем всё, кроме цифр
+  const numeric = phoneRaw.replace(/\D/g, '');
+
+  // Проверка: должно быть 11 цифр, начинаться на 7
+  if (numeric.length !== 11 || !numeric.startsWith('7')) {
     messageEl.textContent = 'Введите корректный номер в формате +7XXXXXXXXXX';
     messageEl.style.color = 'red';
     return;
   }
+
+  const cleanedPhone = '+' + numeric;
 
   fetch('https://proxylast.onrender.com', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, phone: cleanedPhone })
   })
-  .then(res => res.json())
-  .then(data => {
-    if (data.ok) {
-      messageEl.textContent = 'Спасибо! С вами свяжется модератор.';
-      messageEl.style.color = 'green';
-      this.reset();
-    } else {
-      messageEl.textContent = 'Ошибка: ' + (data.error || 'неизвестная ошибка');
+    .then(res => res.json())
+    .then(data => {
+      if (data.ok) {
+        messageEl.textContent = 'Спасибо! С вами свяжется модератор.';
+        messageEl.style.color = 'green';
+        this.reset();
+      } else {
+        messageEl.textContent = 'Ошибка: ' + (data.error || 'неизвестная ошибка');
+        messageEl.style.color = 'red';
+      }
+    })
+    .catch(() => {
+      messageEl.textContent = 'Ошибка отправки. Попробуйте позже.';
       messageEl.style.color = 'red';
-    }
-  })
-  .catch(() => {
-    messageEl.textContent = 'Ошибка отправки. Попробуйте позже.';
-    messageEl.style.color = 'red';
-  });
+    });
 });
 
-
-// Конфетти 🎉
+// 🎉 Конфетти
 const canvas = document.getElementById('confetti');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
