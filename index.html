@@ -4,49 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Вы выиграли приз!</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 2em;
-      background: #f8f9fa;
-    }
-    form {
-      margin-top: 2em;
-    }
-    input {
-      padding: 0.5em;
-      margin: 0.5em;
-      font-size: 1em;
-      width: 200px;
-    }
-    #message {
-      margin-top: 1em;
-      font-weight: bold;
-    }
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: -1;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🎉 Поздравляем, вы выиграли 3000 рублей!</h1>
-  <p>Введите ваши данные для получения приза:</p>
-
-  <form id="prizeForm">
-    <input type="text" name="name" placeholder="Ваше имя" required />
-    <input type="tel" name="phone" placeholder="+7XXXXXXXXXX" required />
-    <br />
-    <button type="submit">Получить приз</button>
-  </form>
-
-  <div id="message"></div>
-
   <canvas id="confetti"></canvas>
+
+  <div class="container">
+    <img src="https://cdn-icons-png.flaticon.com/512/3082/3082031.png" alt="Подарок" class="gift" />
+    <h1>🎉 Поздравляем!</h1>
+    <p class="subtitle">Вы выиграли <b>3000 рублей</b>!</p>
+    <p class="instruction">Введите ваши данные для получения приза:</p>
+
+    <form id="prizeForm">
+      <input type="text" name="name" placeholder="Ваше имя" required />
+      <input type="tel" name="phone" placeholder="+7XXXXXXXXXX" required />
+      <button type="submit">Получить приз</button>
+    </form>
+
+    <div id="message"></div>
+  </div>
 
   <script src="script.js"></script>
 </body>
