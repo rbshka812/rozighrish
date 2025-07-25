@@ -10,7 +10,7 @@ document.getElementById('prizeForm').addEventListener('submit', function (e) {
     return;
   }
 
-  fetch('https://proxylast.onrender.com/', {
+  fetch('https://proxylast.onrender.com', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, phone })
