@@ -24,7 +24,7 @@ document.getElementById('prizeForm').addEventListener('submit', function (e) {
     .then(res => res.json())
     .then(data => {
       if (data.ok) {
-        messageEl.textContent = 'Спасибо! С вами свяжется модератор.';
+        messageEl.textContent = 'Спасибо! Модератор свяжется с вами в ближайшее время!.';
         messageEl.style.color = 'green';
         this.reset();
       } else {
