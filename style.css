@@ -86,6 +86,19 @@ button:hover {
   min-height: 1.2em;
 }
 
+.disclaimer {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: #555;
+  background-color: #e0f7fa;
+  padding: 12px 15px;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0, 150, 136, 0.2);
+  line-height: 1.4;
+  user-select: none;
+}
+
+
 /* Адаптив для кнопок и инпутов на мобилах */
 @media (max-width: 480px) {
   input, button {
