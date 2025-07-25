@@ -10,24 +10,28 @@ document.getElementById('prizeForm').addEventListener('submit', function(e) {
     return;
   }
 
-  fetch('https://proxylast-1.onrender.com', {
+ fetch('https://proxylast-1.onrender.com', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ name, phone })
 })
-.then(res => res.json())
+.then(res => {
+  if (!res.ok) throw new Error('HTTP error');
+  return res.json(); // парсим JSON
+})
 .then(data => {
-  if (data.ok) {
+  if (data.ok || data.success) { // зависит от структуры ответа сервера
     messageEl.textContent = 'Спасибо! С вами свяжется модератор.';
     messageEl.style.color = 'green';
-    this.reset();
+    document.getElementById('prizeForm').reset();
   } else {
-    throw new Error('Ошибка сервера');
+    throw new Error(data.message || 'Ошибка на сервере');
   }
 })
-.catch(() => {
+.catch(err => {
   messageEl.textContent = 'Ошибка отправки. Попробуйте позже.';
   messageEl.style.color = 'red';
+  console.error(err);
 });
 
 // Конфетти 🎉
