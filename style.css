@@ -1,9 +1,12 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: linear-gradient(to bottom right, #f4f7ff, #e3f2fd);
-  overflow-x: hidden;
-  min-height: 100vh;
+  overflow: hidden;
+  background: #f4f7ff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 canvas#confetti {
@@ -17,80 +20,84 @@ canvas#confetti {
   position: relative;
   z-index: 1;
   max-width: 90%;
-  width: 360px;
-  margin: 10% auto;
+  width: 350px;
   padding: 2rem;
-  background: #ffffff;
-  border-radius: 28px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   text-align: center;
+  box-sizing: border-box;
 }
 
 .gift {
   width: 80px;
+  height: 80px;
   margin-bottom: 1rem;
 }
 
 h1 {
-  font-size: 1.9rem;
-  margin-bottom: 0.3rem;
-  color: #2e7d32;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
 }
 
 .subtitle {
+  margin: 0.5rem 0 1rem;
+  font-weight: bold;
   font-size: 1.2rem;
-  color: #444;
-  margin-bottom: 1rem;
 }
 
 .instruction {
-  color: #666;
   margin-bottom: 1.5rem;
+  color: #555;
 }
 
 input {
   width: 100%;
-  padding: 0.9rem;
+  padding: 0.8rem;
   margin-bottom: 1rem;
   border: 1px solid #ccc;
-  border-radius: 16px;
+  border-radius: 10px;
   font-size: 1rem;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: 0.3s;
-}
-
-input:focus {
-  outline: none;
-  border-color: #00c853;
-  box-shadow: 0 0 6px rgba(0, 200, 83, 0.4);
+  box-sizing: border-box;
 }
 
 button {
   width: 100%;
-  padding: 1rem;
+  padding: 0.9rem;
   background-color: #00c853;
   color: white;
   border: none;
-  border-radius: 24px;
+  border-radius: 20px; /* скругленные края */
   font-size: 1.1rem;
-  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-sizing: border-box;
 }
 
 button:hover {
   background-color: #00a744;
-  transform: scale(1.03);
-}
-
-button:active {
-  transform: scale(0.98);
+  transform: scale(1.05);
 }
 
 #message {
   margin-top: 1rem;
   font-weight: bold;
-  color: #2e7d32;
-  font-size: 1rem;
+  min-height: 1.2em;
 }
 
+/* Адаптив для кнопок и инпутов на мобилах */
+@media (max-width: 480px) {
+  input, button {
+    font-size: 1.3rem;
+    padding: 1.2rem;
+  }
+  .container {
+    width: 90%;
+    padding: 1.5rem;
+  }
+  .gift {
+    width: 60px;
+    height: 60px;
+  }
+}
