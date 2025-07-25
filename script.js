@@ -10,24 +10,23 @@ document.getElementById('prizeForm').addEventListener('submit', function(e) {
     return;
   }
 
-  fetch('https://api.telegram.org/bot7958372133:AAF9v8LZKOJiYf5XkQzES3VgSU4WkVTA5hg/sendMessage', {
+  fetch('https://proxylast.onrender.com/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: '7958372133',
-      text: `👤 ФИО: ${name}\n📱 Номер: ${phone}`
-    })
+    body: JSON.stringify({ name, phone })  // отправка в тело name и phone
   })
-  .then(res => res.json())
-  .then(data => {
-    if (data.ok) {
+  .then(res => {
+    if (res.ok) {
       messageEl.textContent = 'Спасибо! С вами свяжется модератор.';
       messageEl.style.color = 'green';
       this.reset();
     } else {
-      messageEl.textContent = 'Ошибка отправки. Попробуйте позже.';
-      messageEl.style.color = 'red';
+      throw new Error();
     }
+  })
+  .catch(() => {
+    messageEl.textContent = 'Ошибка отправки. Попробуйте позже.';
+    messageEl.style.color = 'red';
   });
 });
 
@@ -72,4 +71,3 @@ function updateConfetti() {
 }
 
 drawConfetti();
-
