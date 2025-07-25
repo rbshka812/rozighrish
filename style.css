@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: linear-gradient(to bottom, #f4f7ff, #e3f2fd);
+  background: linear-gradient(to bottom right, #f4f7ff, #e3f2fd);
   overflow-x: hidden;
   min-height: 100vh;
 }
@@ -20,40 +20,52 @@ canvas#confetti {
   width: 360px;
   margin: 10% auto;
   padding: 2rem;
-  background: #fff;
+  background: #ffffff;
   border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   text-align: center;
+}
+
+.gift {
+  width: 80px;
+  margin-bottom: 1rem;
 }
 
 h1 {
   font-size: 1.8rem;
-  margin: 1rem 0 0.5rem;
+  margin-bottom: 0.5rem;
+  color: #2e7d32;
 }
 
-p {
-  margin: 0.5rem 0 1rem;
-  font-size: 1rem;
+.subtitle {
+  font-size: 1.2rem;
   color: #444;
+  margin-bottom: 1rem;
+}
+
+.instruction {
+  color: #666;
+  margin-bottom: 1.5rem;
 }
 
 input {
   width: 100%;
-  padding: 0.8rem;
+  padding: 0.9rem;
   margin-bottom: 1rem;
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 1rem;
 }
 
 button {
   width: 100%;
-  padding: 0.9rem;
+  padding: 1rem;
   background-color: #00c853;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 1.1rem;
+  font-weight: bold;
   cursor: pointer;
   transition: background 0.3s;
 }
@@ -66,4 +78,5 @@ button:hover {
   margin-top: 1rem;
   font-weight: bold;
   color: #2e7d32;
+  font-size: 1rem;
 }
